@@ -18,14 +18,13 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY app   ./app
-COPY models ./models
+COPY app    ./app
 COPY scripts ./scripts
 
-# Optional: at container start, download checkpoints from HF org if env says so.
+# Create empty models/ — the entrypoint downloads checkpoints from HF at startup.
 # Provide HF_TOKEN as a Space secret. Repos can be public or private.
-COPY scripts/spaces_entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+RUN mkdir -p ./models && chmod +x scripts/spaces_entrypoint.sh
+RUN cp scripts/spaces_entrypoint.sh /entrypoint.sh && chmod +x /entrypoint.sh
 
 EXPOSE 7860
 CMD ["/entrypoint.sh"]
