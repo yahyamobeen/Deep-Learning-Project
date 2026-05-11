@@ -18,7 +18,7 @@ dependencies:
   # Camera + media
   camera: ^0.11.0
   video_player: ^2.9.2
-  record: ^5.1.2
+  record: 5.1.2
   path_provider: ^2.1.4
 
   # Permissions
@@ -42,6 +42,20 @@ dev_dependencies:
   flutter_lints: ^4.0.0
   build_runner: ^2.4.13
   json_serializable: ^6.8.0
+
+# Force the record package family to a self-consistent older release.
+# record_linux 0.7.x predates the startStream / hasPermission interface
+# changes introduced in record_platform_interface 1.5.0, so we pin the
+# whole chain back to a matching set. We don't ship to Linux, but Dart
+# still validates all platform impls at compile time.
+dependency_overrides:
+  record: 5.1.0
+  record_platform_interface: 1.2.0
+  record_android: 1.2.6
+  record_darwin: 1.1.2
+  record_linux: 0.7.1
+  record_windows: 1.0.5
+  record_web: 1.1.4
 
 flutter:
   uses-material-design: true

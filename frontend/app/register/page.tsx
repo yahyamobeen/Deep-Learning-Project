@@ -12,10 +12,16 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [err, setErr]           = useState("");
   const [busy, setBusy]         = useState(false);
+  const [success, setSuccess]   = useState(false);
 
   async function submit(e: React.FormEvent) {
-    e.preventDefault(); setBusy(true); setErr("");
-    try { await register(email, password, name); router.push("/learn"); }
+    e.preventDefault(); setBusy(true); setErr(""); setSuccess(false);
+    try {
+      await register(email, password, name);
+      setSuccess(true);
+      // Show the "account created" message for a moment before navigating.
+      setTimeout(() => router.push("/learn"), 1200);
+    }
     catch (e: any) { setErr(e?.response?.data?.error || "Registration failed"); }
     finally { setBusy(false); }
   }
@@ -33,9 +39,14 @@ export default function RegisterPage() {
           onChange={e=>setPassword(e.target.value)} minLength={6} required
           className="w-full border rounded-lg px-4 py-2.5"/>
         {err && <p className="text-rose-600 text-sm">{err}</p>}
-        <button disabled={busy}
+        {success && (
+          <p className="text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 text-sm font-medium">
+            ✓ Account created — redirecting…
+          </p>
+        )}
+        <button disabled={busy || success}
           className="w-full bg-indigo-600 text-white py-2.5 rounded-lg hover:bg-indigo-700 disabled:opacity-50 font-medium">
-          {busy ? "Creating account…" : "Create account"}
+          {success ? "Account created ✓" : busy ? "Creating account…" : "Create account"}
         </button>
       </form>
       <p className="text-sm text-center mt-6 text-slate-600">
