@@ -1,0 +1,9 @@
+title: Sign Language ML Service
+emoji: 🤟
+colorFrom: indigo
+colorTo: purple
+sdk: docker
+app_port: 7860
+suggested_hardware: cpu-basic
+suggested_storage: small
+pinned: false

@@ -1,0 +1,49 @@
+name: signlang_mobile
+description: Flutter client for the Sign Language Translator & Tutor.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # HTTP / JSON
+  dio: ^5.7.0
+  json_annotation: ^4.9.0
+
+  # Camera + media
+  camera: ^0.11.0
+  video_player: ^2.9.2
+  record: ^5.1.2
+  path_provider: ^2.1.4
+
+  # Permissions
+  permission_handler: ^11.3.1
+
+  # Auth + state
+  flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.3.2
+
+  # 3D avatar (renders the same Three.js page the web frontend serves)
+  webview_flutter: ^4.10.0
+
+  # Config
+  flutter_dotenv: ^5.2.1
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  build_runner: ^2.4.13
+  json_serializable: ^6.8.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - .env

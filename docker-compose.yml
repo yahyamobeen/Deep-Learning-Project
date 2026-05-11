@@ -1,0 +1,50 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER:     signbridge
+      POSTGRES_PASSWORD: signbridge_dev
+      POSTGRES_DB:       signdb
+    ports: ["5432:5432"]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./gateway/src/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U signbridge -d signdb"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  ml:
+    build: ./ml-service
+    ports: ["8000:8000"]
+    volumes:
+      - ./ml-service/models:/app/models
+
+  gateway:
+    image: node:20-alpine
+    working_dir: /app
+    volumes: [ "./gateway:/app" ]
+    command: sh -c "npm install && npm start"
+    environment:
+      - PORT=4000
+      - ML_SERVICE_URL=http://ml:8000
+      - JWT_SECRET=dev-secret-change-me
+      - DATABASE_URL=postgres://signbridge:signbridge_dev@postgres:5432/signdb
+    ports: ["4000:4000"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ml:
+        condition: service_started
+
+  frontend:
+    image: node:20-alpine
+    working_dir: /app
+    volumes: [ "./frontend:/app" ]
+    command: sh -c "npm install && npm run dev"
+    ports: ["3000:3000"]
+    depends_on: [gateway]
+
+volumes:
+  pgdata:

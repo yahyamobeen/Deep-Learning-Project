@@ -1,0 +1,4 @@
+Place model artefacts here after running the Colab notebooks:
+- videomae_wlasl100/           (folder, from notebook 03)
+- t5_text2gloss/               (folder, from notebook 04)
+- reference_signs.json         (from notebook 02 — tutor lesson refs)

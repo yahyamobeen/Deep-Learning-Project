@@ -1,0 +1,31 @@
+# Hugging Face Spaces variant. HF Spaces requires the app to listen on 7860
+# and exposes /data as the persistent disk. We optionally pull weights from
+# the project's HF org at startup so the image itself stays small.
+FROM python:3.11-slim
+
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONUNBUFFERED=1 \
+    PIP_NO_CACHE_DIR=1 \
+    HF_HOME=/data/hf_cache \
+    TRANSFORMERS_CACHE=/data/hf_cache
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg libsm6 libxext6 libgl1 git curl ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY app   ./app
+COPY models ./models
+COPY scripts ./scripts
+
+# Optional: at container start, download checkpoints from HF org if env says so.
+# Provide HF_TOKEN as a Space secret. Repos can be public or private.
+COPY scripts/spaces_entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+EXPOSE 7860
+CMD ["/entrypoint.sh"]

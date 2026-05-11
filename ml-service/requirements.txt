@@ -1,0 +1,29 @@
+fastapi==0.115.0
+python-dotenv==1.0.1
+uvicorn[standard]==0.30.6
+pydantic==2.9.2
+python-multipart==0.0.12
+numpy==1.26.4
+opencv-python-headless==4.10.0.84
+
+# Deep learning
+torch==2.4.1
+transformers==4.45.2
+accelerate==0.34.2
+sentencepiece==0.2.0
+huggingface_hub>=0.25
+peft==0.13.2
+
+# ONNX / quantized inference (CPU-friendly)
+# optimum 1.22 caps transformers <4.45 — use 1.23.x which supports 4.45.2.
+onnxruntime==1.19.2
+optimum[onnxruntime]>=1.23.2,<2.0
+
+# Tutor (MediaPipe + DTW)
+mediapipe==0.10.14
+fastdtw==0.3.4
+scipy==1.13.1
+
+# Eval / dev
+sacrebleu==2.4.3
+pytest==8.3.3

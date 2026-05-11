@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# Node
+node_modules/
+.next/
+dist/
+build/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+*.iml
+.idea/
+.gradle/
+android/.gradle/
+android/captures/
+android/local.properties
+build/
+
+# Env files (these contain secrets — only commit .env.example)
+.env
+.env.local
+.env.*.local
+**/.env
+!**/.env.example
+
+# ML training outputs
+local_runs/
+ml-service/models/*.pt
+ml-service/models/*.bin
+ml-service/models/*.safetensors
+ml-service/models/sthgcn_wlasl300/
+ml-service/models/movinet_a0_wlasl300/
+ml-service/models/t5_text2gloss/
+ml-service/models/gloss2text/
+ml-service/models/refs/
+ml-service/models/reference_signs.json
+
+# Landmark caches
+*.npz
+**/wlasl_top300_landmarks_npz/
+
+# Logs
+*.log
+ml-service/pip_install.log
+
+# OS / IDE
+.DS_Store
+Thumbs.db
+.vscode/
+*.swp
